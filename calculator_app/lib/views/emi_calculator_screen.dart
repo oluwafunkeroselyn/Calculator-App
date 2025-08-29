@@ -10,8 +10,7 @@ class AdvancedEmiCalculatorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(EmiCalculatorController());
 
-    InputDecoration fieldDecoration(String label) => InputDecoration(
-          labelText: label,
+    InputDecoration fieldDecoration() => InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -29,71 +28,86 @@ class AdvancedEmiCalculatorScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Loan Amount
+              const Text("Loan Amount"),
+              const SizedBox(height: 6),
               TextField(
-                decoration: fieldDecoration('Loan Amount'),
+                decoration: fieldDecoration(),
                 keyboardType: TextInputType.number,
                 onChanged: (val) => controller.loanAmount.value = val,
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 16),
 
               // Interest %
+              const Text("Interest %"),
+              const SizedBox(height: 6),
               TextField(
-                decoration: fieldDecoration('Interest %'),
+                decoration: fieldDecoration(),
                 keyboardType: TextInputType.number,
                 onChanged: (val) => controller.rate.value = val,
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 16),
 
-              // Time Duration + Years/Months toggle
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: fieldDecoration('Time Duration'),
-                      keyboardType: TextInputType.number,
-                      onChanged: (val) => controller.tenure.value = val,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Obx(() => Row(
-                        children: [
-                          Radio<String>(
-                            value: "Years",
-                            groupValue: controller.durationType.value,
-                            onChanged: (val) =>
-                                controller.durationType.value = val!,
-                          ),
-                          const Text("Years"),
-                          Radio<String>(
-                            value: "Months",
-                            groupValue: controller.durationType.value,
-                            onChanged: (val) =>
-                                controller.durationType.value = val!,
-                          ),
-                          const Text("Months"),
-                        ],
-                      )),
-                ],
-              ),
-              const SizedBox(height: 12),
+              // Time Duration with Years/Months
+             // Time Duration with Years/Months
+const Text("Time Duration"),
+// Radios row ABOVE the textfield (like in your screenshot)
+Obx(() => Row(
+  mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Radio<String>(
+          value: "Years",
+          groupValue: controller.durationType.value,
+          onChanged: (val) => controller.durationType.value = val!,
+        ),
+        const Text("Years"),
+        const SizedBox(width: 10),
+        Radio<String>(
+          value: "Months",
+          groupValue: controller.durationType.value,
+          onChanged: (val) => controller.durationType.value = val!,
+        ),
+        const Text("Months"),
+      ],
+    )),
 
-              // Fees and Charges %
+// Duration input BELOW the radio buttons
+TextField(
+  decoration: fieldDecoration(),
+  keyboardType: TextInputType.number,
+  onChanged: (val) => controller.tenure.value = val,
+),
+const SizedBox(height: 16),
+
+              // Duration input
               TextField(
-                decoration: fieldDecoration('Fees and Charges %'),
+                decoration: fieldDecoration(),
+                keyboardType: TextInputType.number,
+                onChanged: (val) => controller.tenure.value = val,
+              ),
+              const SizedBox(height: 16),
+
+              // Fees
+              const Text("Fees and Charges %"),
+              const SizedBox(height: 6),
+              TextField(
+                decoration: fieldDecoration(),
                 keyboardType: TextInputType.number,
                 onChanged: (val) => controller.fees.value = val,
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 16),
 
-              // GST %
+              // GST
+              const Text("GST on Interest %"),
+              const SizedBox(height: 6),
               TextField(
-                decoration: fieldDecoration('GST on Interest %'),
+                decoration: fieldDecoration(),
                 keyboardType: TextInputType.number,
                 onChanged: (val) => controller.gst.value = val,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
 
               // Calculate Button
               ElevatedButton(
